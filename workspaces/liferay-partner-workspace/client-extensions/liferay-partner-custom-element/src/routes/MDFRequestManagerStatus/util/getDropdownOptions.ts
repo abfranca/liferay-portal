@@ -47,12 +47,23 @@ export default function getDropdownOptions(
 					},
 				});
 			}
+
 			if (currentValue === PermissionActionType.APPROVE) {
 				previousValue.push({
 					key: Status.APPROVED.key,
 					label: Status.APPROVED.name,
 					onClick: () => {
 						updateRequestStatus(Status.APPROVED);
+					},
+				});
+			}
+
+			if (currentValue === PermissionActionType.CANCEL) {
+				previousValue.push({
+					key: Status.CANCELED.key,
+					label: Status.CANCELED.name,
+					onClick: () => {
+						updateRequestStatus(Status.CANCELED);
 					},
 				});
 			}
@@ -101,6 +112,16 @@ export default function getDropdownOptions(
 					},
 				});
 			}
+
+			if (currentValue === PermissionActionType.CANCEL) {
+				previousValue.push({
+					key: Status.CANCELED.key,
+					label: Status.CANCELED.name,
+					onClick: () => {
+						updateRequestStatus(Status.CANCELED);
+					},
+				});
+			}
 		}
 
 		if (mdfRequestStatus?.key === Status.REQUEST_MORE_INFO.key) {
@@ -113,6 +134,16 @@ export default function getDropdownOptions(
 					label: Status.MARKETING_DIRECTOR_REVIEW.name,
 					onClick: () => {
 						updateRequestStatus(Status.MARKETING_DIRECTOR_REVIEW);
+					},
+				});
+			}
+
+			if (currentValue === PermissionActionType.CANCEL) {
+				previousValue.push({
+					key: Status.CANCELED.key,
+					label: Status.CANCELED.name,
+					onClick: () => {
+						updateRequestStatus(Status.CANCELED);
 					},
 				});
 			}
@@ -138,6 +169,16 @@ export default function getDropdownOptions(
 					label: Status.REQUEST_MORE_INFO.name,
 					onClick: () => {
 						updateRequestStatus(Status.REQUEST_MORE_INFO);
+					},
+				});
+			}
+
+			if (currentValue === PermissionActionType.CANCEL) {
+				previousValue.push({
+					key: Status.CANCELED.key,
+					label: Status.CANCELED.name,
+					onClick: () => {
+						updateRequestStatus(Status.CANCELED);
 					},
 				});
 			}
@@ -176,6 +217,16 @@ export default function getDropdownOptions(
 					label: Status.REQUEST_MORE_INFO.name,
 					onClick: () => {
 						updateRequestStatus(Status.REQUEST_MORE_INFO);
+					},
+				});
+			}
+
+			if (currentValue === PermissionActionType.CANCEL) {
+				previousValue.push({
+					key: Status.CANCELED.key,
+					label: Status.CANCELED.name,
+					onClick: () => {
+						updateRequestStatus(Status.CANCELED);
 					},
 				});
 			}
