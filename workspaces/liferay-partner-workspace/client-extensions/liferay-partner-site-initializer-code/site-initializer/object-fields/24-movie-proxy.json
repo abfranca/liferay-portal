@@ -1,0 +1,161 @@
+{
+    "object-fields": [
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Backdrop"
+            },
+            "name": "backdrop",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "ERC"
+            },
+            "name": "erc",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Genres"
+            },
+            "name": "genres",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Language"
+            },
+            "name": "language",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Original Title"
+            },
+            "name": "originalTitle",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "Clob",
+            "businessType": "LongText",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Overview"
+            },
+            "name": "overview",
+            "required": false,
+            "type": "LongString"
+        },
+        {
+            "DBType": "BigDecimal",
+            "businessType": "PrecisionDecimal",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Popularity"
+            },
+            "name": "popularity",
+            "required": false,
+            "type": "BigDecimal"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Poster"
+            },
+            "name": "poster",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "BigDecimal",
+            "businessType": "PrecisionDecimal",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Rate"
+            },
+            "name": "rate",
+            "required": false,
+            "type": "BigDecimal"
+        },
+        {
+            "DBType": "Date",
+            "businessType": "Date",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Release"
+            },
+            "name": "release",
+            "required": false,
+            "type": "Date"
+        },
+        {
+            "DBType": "String",
+            "businessType": "Text",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Title"
+            },
+            "name": "title",
+            "required": false,
+            "type": "String"
+        },
+        {
+            "DBType": "Boolean",
+            "businessType": "Boolean",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Video"
+            },
+            "name": "video",
+            "required": false,
+            "type": "Boolean"
+        },
+        {
+            "DBType": "Integer",
+            "businessType": "Integer",
+            "indexed": true,
+            "indexedAsKeyword": false,
+            "label": {
+                "en_US": "Votes"
+            },
+            "name": "votes",
+            "required": false,
+            "type": "Integer"
+        }
+    ],
+    "objectDefinitionId": "[$OBJECT_DEFINITION_ID:MovieProxy$]"
+}

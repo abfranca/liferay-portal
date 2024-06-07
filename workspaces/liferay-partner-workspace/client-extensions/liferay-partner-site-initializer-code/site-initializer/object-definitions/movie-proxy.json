@@ -1,0 +1,28 @@
+{
+	"externalReferenceCode": "MovieProxy",
+	"label": {
+		"en_US": "Movie Proxy"
+	},
+	"name": "MovieProxy",
+	"objectFields": [
+		{
+			"DBType": "Boolean",
+			"businessType": "Boolean",
+			"indexed": true,
+			"indexedAsKeyword": false,
+			"label": {
+				"en_US": "Adult"
+			},
+			"name": "adult",
+			"required": false,
+			"type": "Boolean"
+		}
+	],
+	"panelCategoryKey": "applications_menu.applications.content",
+	"pluralLabel": {
+		"en_US": "Movies Proxy"
+	},
+	"portlet": true,
+	"scope": "company",
+	"storageType": "function#liferay-partner-etc-spring-boot-object-entry-manager-salesforce"
+}
