@@ -15,21 +15,27 @@ import com.liferay.customer.model.JiraSupportIssue;
 import com.liferay.customer.model.SaaSUsageStrategy;
 import com.liferay.customer.model.UsageStrategy;
 import com.liferay.customer.permission.BusinessEventPermission;
+import com.liferay.customer.service.AccountRoleService;
+import com.liferay.customer.service.AccountService;
 import com.liferay.customer.service.GoogleCloudFunctionService;
 import com.liferay.customer.service.JiraService;
 import com.liferay.customer.service.KoroneikiService;
+import com.liferay.customer.service.UserAccountService;
+import com.liferay.customer.util.AccountRoleUtil;
+import com.liferay.customer.util.UserAccountUtil;
 import com.liferay.headless.admin.user.client.dto.v1_0.Account;
-import com.liferay.headless.admin.user.client.resource.v1_0.AccountResource;
+import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
+import com.liferay.headless.admin.user.client.problem.Problem;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.net.URL;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,7 +60,6 @@ import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -207,6 +212,8 @@ public class AccountsRestController extends BaseRestController {
 
 			_updateAccount(jwt, koroneikiAccount);
 
+			_updateAccountMemberships(jwt, koroneikiAccount);
+
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		catch (Exception exception) {
@@ -259,18 +266,68 @@ public class AccountsRestController extends BaseRestController {
 		}
 	}
 
+	private void _addOrUpdateContact(
+			Jwt jwt, Contact contact, UserAccount existingUserAccount)
+		throws Exception {
+
+		String emailAddress = contact.getEmailAddress();
+
+		UserAccount userAccount = new UserAccount();
+
+		userAccount.setFamilyName(contact::getLastName);
+		userAccount.setGivenName(contact::getFirstName);
+
+		if (existingUserAccount != null) {
+			userAccount.setUserAccountContactInformation(
+				() -> UserAccountUtil.updateUserAccountContactInformation(
+					contact.getPhones(),
+					existingUserAccount.getUserAccountContactInformation()));
+
+			_userAccountService.updateUserAccount(
+				jwt, existingUserAccount.getId(), userAccount);
+
+			return;
+		}
+
+		try {
+			UserAccount curUserAccount = _userAccountService.getUserAccount(
+				jwt, emailAddress);
+
+			userAccount.setUserAccountContactInformation(
+				() -> UserAccountUtil.updateUserAccountContactInformation(
+					contact.getPhones(),
+					curUserAccount.getUserAccountContactInformation()));
+
+			_userAccountService.updateUserAccount(
+				jwt, curUserAccount.getId(), userAccount);
+		}
+		catch (Problem.ProblemException problemException) {
+			Problem problem = problemException.getProblem();
+
+			String status = problem.getStatus();
+
+			if (status.equals(_STATUS_NOT_FOUND)) {
+				String[] emailAddressParts = emailAddress.split("@");
+
+				userAccount.setAlternateName(() -> emailAddressParts[0]);
+
+				userAccount.setEmailAddress(contact::getEmailAddress);
+				userAccount.setUserAccountContactInformation(
+					() -> UserAccountUtil.updateUserAccountContactInformation(
+						contact.getPhones(), null));
+
+				_userAccountService.addUserAccount(jwt, userAccount);
+			}
+			else {
+				throw problemException;
+			}
+		}
+	}
+
 	private void _checkPermissions(Jwt jwt, String externalReferenceCode)
 		throws Exception {
 
-		AccountResource accountResource = AccountResource.builder(
-		).header(
-			HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue()
-		).endpoint(
-			lxcDXPMainDomain, lxcDXPServerProtocol
-		).build();
-
-		accountResource.getAccountByExternalReferenceCode(
-			externalReferenceCode);
+		_accountService.getAccount(jwt, externalReferenceCode);
 	}
 
 	private UsageStrategy _fetchUsageStrategy(
@@ -498,13 +555,6 @@ public class AccountsRestController extends BaseRestController {
 				koroneikiAccount)
 		throws Exception {
 
-		AccountResource accountResource = AccountResource.builder(
-		).header(
-			HttpHeaders.AUTHORIZATION, "Bearer " + jwt.getTokenValue()
-		).endpoint(
-			new URL(lxcDXPServerProtocol + "://" + lxcDXPMainDomain)
-		).build();
-
 		Account account = new Account();
 
 		account.setDescription(koroneikiAccount::getDescription);
@@ -512,8 +562,7 @@ public class AccountsRestController extends BaseRestController {
 		account.setName(
 			() -> StringUtil.shorten(koroneikiAccount.getName(), 99));
 
-		accountResource.putAccountByExternalReferenceCode(
-			koroneikiAccount.getKey(), account);
+		_accountService.updateAccount(jwt, koroneikiAccount.getKey(), account);
 	}
 
 	private void _updateAccountHeatTags(String externalReferenceCode)
@@ -541,6 +590,100 @@ public class AccountsRestController extends BaseRestController {
 				page += 1;
 			}
 		}
+	}
+
+	private void _updateAccountMemberships(
+			Jwt jwt,
+			com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account
+				koroneikiAccount)
+		throws Exception {
+
+		Map<String, Long> accountRoleIdMap =
+			AccountRoleUtil.getContactAccountRoleIdMap(
+				_accountRoleService.getAccountAccountRoles(
+					jwt, koroneikiAccount.getKey()));
+
+		Map<String, UserAccount> emailAddressUserAccountMap = new HashMap<>();
+
+		for (UserAccount userAccount :
+				_userAccountService.getAccountUserAccounts(
+					jwt, koroneikiAccount.getKey())) {
+
+			emailAddressUserAccountMap.put(
+				userAccount.getEmailAddress(), userAccount);
+		}
+
+		Map<String, List<Long>> emailAddressAccountRoleIdsMap = new HashMap<>();
+
+		Map<String, Contact> emailAddressContactMap = new HashMap<>();
+
+		Contact[] contacts = new Contact[0];
+
+		if (ArrayUtil.isNotEmpty(koroneikiAccount.getCustomerContacts())) {
+			contacts = ArrayUtil.append(
+				contacts, koroneikiAccount.getCustomerContacts());
+		}
+
+		if (ArrayUtil.isNotEmpty(koroneikiAccount.getWorkerContacts())) {
+			contacts = ArrayUtil.append(
+				contacts, koroneikiAccount.getWorkerContacts());
+		}
+
+		for (Contact contact : contacts) {
+			List<Long> accountRoleIds =
+				emailAddressAccountRoleIdsMap.computeIfAbsent(
+					contact.getEmailAddress(), key -> new ArrayList<>());
+
+			accountRoleIds.addAll(
+				AccountRoleUtil.getContactAccountRoleIds(
+					accountRoleIdMap, contact.getContactRoles()));
+
+			emailAddressContactMap.putIfAbsent(
+				contact.getEmailAddress(), contact);
+		}
+
+		for (Map.Entry<String, Contact> entry :
+				emailAddressContactMap.entrySet()) {
+
+			UserAccount existingUserAccount = emailAddressUserAccountMap.get(
+				entry.getKey());
+
+			_addOrUpdateContact(jwt, entry.getValue(), existingUserAccount);
+
+			if (ListUtil.isEmpty(
+					emailAddressAccountRoleIdsMap.get(entry.getKey()))) {
+
+				continue;
+			}
+
+			if (existingUserAccount == null) {
+				_userAccountService.addAccountUserAccount(
+					jwt, koroneikiAccount.getKey(), entry.getKey());
+			}
+
+			_accountRoleService.updateAccountAccountRolesUserAccount(
+				jwt, koroneikiAccount.getKey(),
+				AccountRoleUtil.getCurrentAccountRoleIds(
+					existingUserAccount, koroneikiAccount.getKey(),
+					accountRoleIdMap.values()),
+				emailAddressAccountRoleIdsMap.get(entry.getKey()),
+				entry.getKey());
+		}
+
+		List<String> emailAddressesToRemove = new ArrayList<>();
+
+		for (String emailAddress : emailAddressUserAccountMap.keySet()) {
+			List<Long> roleIds = emailAddressAccountRoleIdsMap.get(
+				emailAddress);
+
+			if (ListUtil.isEmpty(roleIds)) {
+				emailAddressesToRemove.add(emailAddress);
+			}
+		}
+
+		_userAccountService.deleteAccountUserAccounts(
+			jwt, koroneikiAccount.getKey(),
+			emailAddressesToRemove.toArray(new String[0]));
 	}
 
 	private void _updateJSM(
@@ -646,8 +789,16 @@ public class AccountsRestController extends BaseRestController {
 
 	private static final String _JSM_AUTOMATION_HEAT_TAG_SUFFIX = "_be";
 
+	private static final String _STATUS_NOT_FOUND = "NOT_FOUND";
+
 	private static final Log _log = LogFactory.getLog(
 		AccountsRestController.class);
+
+	@Autowired
+	private AccountRoleService _accountRoleService;
+
+	@Autowired
+	private AccountService _accountService;
 
 	@Autowired
 	private BusinessEventPermission _businessEventPermission;
@@ -666,5 +817,8 @@ public class AccountsRestController extends BaseRestController {
 
 	@Autowired
 	private LiferayOAuth2AccessTokenManager _liferayOAuth2AccessTokenManager;
+
+	@Autowired
+	private UserAccountService _userAccountService;
 
 }
