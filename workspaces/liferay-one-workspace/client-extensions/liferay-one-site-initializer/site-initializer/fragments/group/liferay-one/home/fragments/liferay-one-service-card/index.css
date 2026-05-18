@@ -1,0 +1,48 @@
+.liferay-one-service-card {
+	height: 100%;
+	justify-self: center;
+	max-width: 300px;
+}
+
+.liferay-one-service-card .service-card {
+	background: #fff;
+	border: 1px solid #E5E7EB;
+	border-radius: 8px;
+	color: inherit;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	height: 100%;
+	padding: 24px;
+	text-decoration: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.liferay-one-service-card .service-card:hover,
+.liferay-one-service-card .service-card:focus-visible {
+	border-color: #4F46E5;
+	box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 4px 8px rgba(79, 70, 229, 0.08);
+	color: inherit;
+	text-decoration: none;
+}
+
+.liferay-one-service-card .service-card-icon {
+	display: block;
+	height: 32px;
+	width: 32px;
+}
+
+.liferay-one-service-card .service-card-heading {
+	color: #111827;
+	font-size: 1.125rem;
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 0;
+}
+
+.liferay-one-service-card .service-card-description {
+	color: #4B5563;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+	margin: 0;
+}

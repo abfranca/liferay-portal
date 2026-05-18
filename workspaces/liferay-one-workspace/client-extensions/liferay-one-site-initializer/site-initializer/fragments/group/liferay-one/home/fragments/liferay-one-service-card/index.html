@@ -1,0 +1,21 @@
+<div class="liferay-one-service-card">
+	<a class="service-card" href="${configuration.url}">
+		[#if configuration.icon == "learn"]
+			<img alt="" class="service-card-icon" src="[resources:service_card_learn.svg]" />
+		[#elseif configuration.icon == "marketplace"]
+			<img alt="" class="service-card-icon" src="[resources:service_card_marketplace.svg]" />
+		[#elseif configuration.icon == "support"]
+			<img alt="" class="service-card-icon" src="[resources:service_card_support.svg]" />
+		[#else]
+			<img alt="" class="service-card-icon" src="[resources:service_card_account.svg]" />
+		[/#if]
+
+		<h3 class="service-card-heading" data-lfr-editable-id="heading" data-lfr-editable-type="text">
+			Service
+		</h3>
+
+		<p class="service-card-description" data-lfr-editable-id="description" data-lfr-editable-type="text">
+			Description.
+		</p>
+	</a>
+</div>

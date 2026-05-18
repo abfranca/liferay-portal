@@ -136,6 +136,374 @@
 				},
 				"id": "8c2e9b3a-44d6-4f0e-9b21-3d6c1f8a2e10",
 				"type": "Fragment"
+			},
+			{
+				"definition": {
+					"fragmentStyle": {
+						"paddingLeft": "3",
+						"paddingRight": "3"
+					},
+					"gutters": true,
+					"indexed": true,
+					"modulesPerRow": 4,
+					"numberOfColumns": 4,
+					"reverseOrder": false,
+					"rowViewports": [
+						{
+							"id": "landscapeMobile",
+							"rowViewportDefinition": {
+								"modulesPerRow": 1
+							}
+						},
+						{
+							"id": "portraitMobile",
+							"rowViewportDefinition": {
+								"modulesPerRow": 1
+							}
+						},
+						{
+							"id": "tablet",
+							"rowViewportDefinition": {
+							}
+						}
+					],
+					"verticalAlignment": "top"
+				},
+				"pageElements": [
+					{
+						"definition": {
+							"columnViewports": [
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "landscapeMobile"
+								},
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "portraitMobile"
+								},
+								{
+									"columnViewportDefinition": {
+									},
+									"id": "tablet"
+								}
+							],
+							"size": 3
+						},
+						"pageElements": [
+							{
+								"definition": {
+									"fragment": {
+										"key": "liferay-one-service-card",
+										"siteKey": "One"
+									},
+									"fragmentConfig": {
+										"icon": "account",
+										"url": {
+											"en_US": {
+												"href": "/my-account"
+											},
+											"es_ES": {
+												"href": "/my-account"
+											},
+											"ja_JP": {
+												"href": "/my-account"
+											},
+											"pt_BR": {
+												"href": "/my-account"
+											}
+										}
+									},
+									"fragmentFields": [
+										{
+											"id": "heading",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Account",
+														"es_ES": "Cuenta",
+														"ja_JP": "アカウント",
+														"pt_BR": "Conta"
+													}
+												}
+											}
+										},
+										{
+											"id": "description",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Manage your Liferay account and subscription.",
+														"es_ES": "Gestiona tu cuenta y suscripción de Liferay.",
+														"ja_JP": "Liferayアカウントとサブスクリプションを管理します。",
+														"pt_BR": "Gerencie sua conta e assinatura Liferay."
+													}
+												}
+											}
+										}
+									],
+									"indexed": true
+								},
+								"id": "a4b03d86-feb8-41d5-8244-581ae4e34209",
+								"type": "Fragment"
+							}
+						],
+						"type": "Column"
+					},
+					{
+						"definition": {
+							"columnViewports": [
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "landscapeMobile"
+								},
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "portraitMobile"
+								},
+								{
+									"columnViewportDefinition": {
+									},
+									"id": "tablet"
+								}
+							],
+							"size": 3
+						},
+						"pageElements": [
+							{
+								"definition": {
+									"fragment": {
+										"key": "liferay-one-service-card",
+										"siteKey": "One"
+									},
+									"fragmentConfig": {
+										"icon": "support",
+										"url": {
+											"en_US": {
+												"href": "https://liferay.atlassian.net/servicedesk/customer/portals"
+											},
+											"es_ES": {
+												"href": "https://liferay.atlassian.net/servicedesk/customer/portals"
+											},
+											"ja_JP": {
+												"href": "https://liferay.atlassian.net/servicedesk/customer/portals"
+											},
+											"pt_BR": {
+												"href": "https://liferay.atlassian.net/servicedesk/customer/portals"
+											}
+										}
+									},
+									"fragmentFields": [
+										{
+											"id": "heading",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Support",
+														"es_ES": "Soporte",
+														"ja_JP": "サポート",
+														"pt_BR": "Suporte"
+													}
+												}
+											}
+										},
+										{
+											"id": "description",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Get help with your Liferay products.",
+														"es_ES": "Obtén ayuda con tus productos de Liferay.",
+														"ja_JP": "Liferay製品のサポートを受けられます。",
+														"pt_BR": "Obtenha ajuda com seus produtos Liferay."
+													}
+												}
+											}
+										}
+									],
+									"indexed": true
+								},
+								"id": "fc42de46-9f20-4f4c-88a7-c824135e9045",
+								"type": "Fragment"
+							}
+						],
+						"type": "Column"
+					},
+					{
+						"definition": {
+							"columnViewports": [
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "landscapeMobile"
+								},
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "portraitMobile"
+								},
+								{
+									"columnViewportDefinition": {
+									},
+									"id": "tablet"
+								}
+							],
+							"size": 3
+						},
+						"pageElements": [
+							{
+								"definition": {
+									"fragment": {
+										"key": "liferay-one-service-card",
+										"siteKey": "One"
+									},
+									"fragmentConfig": {
+										"icon": "learn",
+										"url": {
+											"en_US": {
+												"href": "https://learn.liferay.com/"
+											},
+											"es_ES": {
+												"href": "https://learn.liferay.com/"
+											},
+											"ja_JP": {
+												"href": "https://learn.liferay.com/"
+											},
+											"pt_BR": {
+												"href": "https://learn.liferay.com/"
+											}
+										}
+									},
+									"fragmentFields": [
+										{
+											"id": "heading",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Learn",
+														"es_ES": "Aprender",
+														"ja_JP": "学ぶ",
+														"pt_BR": "Aprender"
+													}
+												}
+											}
+										},
+										{
+											"id": "description",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Explore documentation and courses to master Liferay products.",
+														"es_ES": "Explora documentación y cursos para dominar los productos de Liferay.",
+														"ja_JP": "Liferay製品をマスターするためのドキュメントとコースをご覧ください。",
+														"pt_BR": "Explore documentação e cursos para dominar os produtos Liferay."
+													}
+												}
+											}
+										}
+									],
+									"indexed": true
+								},
+								"id": "1d4923f2-899d-4975-b832-ef48dfc2a2e9",
+								"type": "Fragment"
+							}
+						],
+						"type": "Column"
+					},
+					{
+						"definition": {
+							"columnViewports": [
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "landscapeMobile"
+								},
+								{
+									"columnViewportDefinition": {
+										"size": 12
+									},
+									"id": "portraitMobile"
+								},
+								{
+									"columnViewportDefinition": {
+									},
+									"id": "tablet"
+								}
+							],
+							"size": 3
+						},
+						"pageElements": [
+							{
+								"definition": {
+									"fragment": {
+										"key": "liferay-one-service-card",
+										"siteKey": "One"
+									},
+									"fragmentConfig": {
+										"icon": "marketplace",
+										"url": {
+											"en_US": {
+												"href": "/marketplace"
+											},
+											"es_ES": {
+												"href": "/marketplace"
+											},
+											"ja_JP": {
+												"href": "/marketplace"
+											},
+											"pt_BR": {
+												"href": "/marketplace"
+											}
+										}
+									},
+									"fragmentFields": [
+										{
+											"id": "heading",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Marketplace",
+														"es_ES": "Marketplace",
+														"ja_JP": "Marketplace",
+														"pt_BR": "Marketplace"
+													}
+												}
+											}
+										},
+										{
+											"id": "description",
+											"value": {
+												"text": {
+													"value_i18n": {
+														"en_US": "Find latest apps, products and other resources to extend your Liferay platform.",
+														"es_ES": "Encuentra las últimas aplicaciones, productos y otros recursos para ampliar tu plataforma Liferay.",
+														"ja_JP": "Liferayプラットフォームを拡張するための最新のアプリ、製品、その他のリソースをご覧ください。",
+														"pt_BR": "Encontre os aplicativos, produtos e recursos mais recentes para estender sua plataforma Liferay."
+													}
+												}
+											}
+										}
+									],
+									"indexed": true
+								},
+								"id": "66a71226-cd08-468c-bfa4-72105b317a50",
+								"type": "Fragment"
+							}
+						],
+						"type": "Column"
+					}
+				],
+				"type": "Row"
 			}
 		],
 		"type": "Root"
